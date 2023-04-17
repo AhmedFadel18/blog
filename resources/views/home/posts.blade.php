@@ -17,7 +17,7 @@
                                     <ul class="post-info">
                                         <li><a href="#">{{ $post->user->name }}</a></li>
                                         <li><a href="{{ route('post.show', $post->slug) }}">{{ $post->created_at->format('d-m-Y')  }}</a></li>
-                                        <span>{{ $post->comment->count() }} Comments</span>
+                                        <span>{{ $post->comment_count }} Comments</span>
                                     </ul>
                                     <p>{{ $post->title }}</p>
                                 </div>

@@ -14,7 +14,7 @@ class PostsController extends Controller
 {
     public function allPosts()
     {
-        $post = Post::get();
+        $post = Post::withCount(['comment'])->orderBy('comment_count','DESC')->get();
         return view('home.posts', compact('post'));
     }
 
