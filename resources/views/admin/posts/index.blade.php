@@ -1,0 +1,86 @@
+@extends('admin.dashboard')
+@section('content')
+    <div class="main-panel">
+        <div class="content-wrapper">
+            @if (session()->has('message'))
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+            <div class="card-body">
+                <h3>All Posts</h3>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Added By</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($posts as $post)
+                        <tr>
+                            <td>
+                            <a href="{{ route('admin.post.show',$post->id) }}">
+                                {{ $post->title }}
+                            </a>
+                        </td>
+                            <td>{{ $post->user->name }}</td>
+                            <td>{{ $post->created_at }}</td>
+                            @if ($post->status==0)
+                            <td style="color: goldenrod">Pending</td>
+                            @else
+                            <td>Published</td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="card-body">
+                {!! $posts->links() !!}
+            </div>
+            <div class="card-body">
+                <h3>Pending Posts</h3>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Added By</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pending_posts as $post)
+                        <tr>
+                            <td>
+                            <a href="{{ route('admin.post.show',$post->id) }}">
+                                {{ $post->title }}
+                            </a>
+                        </td>
+                            <td>{{ $post->user->name }}</td>
+                            <td>{{ $post->created_at }}</td>
+                            @if ($post->status==0)
+                            <td style="color: goldenrod">Pending</td>
+                            @else
+                            <td>Published</td>
+                            @endif
+                            <td>
+                                <a href="{{ route('admin.posts.publish',$post->id) }}" class="btn btn-success">Publish</a>
+                                <a href="{{ route('admin.posts.delete',$post->id) }}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="card-body">
+                {!! $pending_posts->links() !!}
+            </div>
+        </div>
+    </div>
+@endsection

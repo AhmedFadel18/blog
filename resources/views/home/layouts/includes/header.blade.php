@@ -16,7 +16,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route ('posts.all') }}">Posts</a>
+                        <a class="nav-link" href="{{ route('posts.all') }}">Posts</a>
                     </li>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -28,14 +28,25 @@
                             <!-- Authentication Links -->
                             @guest
                                 @if (Route::has('login'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                    </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Login
+                                    </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('login') }}">
+                                      User
+                                    </a>
+                                        <a class="dropdown-item" href="{{ route('admin.login') }}">
+                                        Admin
+                                        </a>
+                                </div>
+
                                 @endif
 
                                 @if (Route::has('register'))
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                        <a class="nav-link" href="{{ route('register') }}">Register</a>
                                     </li>
                                 @endif
                             @else
@@ -49,10 +60,10 @@
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                               document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                            Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        <form id="logout-form" action="{{ route('logout') }}" method="get" class="d-none">
                                             @csrf
                                         </form>
                                     </div>
@@ -61,11 +72,17 @@
                         </ul>
                     </div>
                     <!--End Authentication Links -->
-@if (Auth::user())
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('profile.index',Auth::user()->id) }}">Profile</a>
-</li>
-@endif
+                    @if (Auth::user())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.index', Auth::user()->id) }}">Profile</a>
+                        </li>
+                    @endif
+
+                    @if (Auth::user() && Auth::user()->user_type==1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                        </li>
+                    @endif
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>

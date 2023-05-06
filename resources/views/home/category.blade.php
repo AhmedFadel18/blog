@@ -1,5 +1,5 @@
 @extends('home.layouts.layout')
-@section('title', $category->name)
+@section('title', $tag->name)
 @section('content')
 
     <div class="heading-page header-text">
@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-content">
-                            <h4>{{ $category->name }}</h4>
+                            <h4>{{ $tag->name }}</h4>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,9 @@
                                                     </div>
 
                                                     <div class="down-content">
-                                                        <span>{{ $post->tag->name }}</span>
+                                                        @foreach ($post->tags as $tags)
+                                                        <span>{{ $tags->name }}</span>
+                                                        @endforeach
                                                         <a href="{{ route('post.show', $post->slug) }}">
                                                             <h4>{{ $post->title }}</h4>
                                                         </a>
@@ -44,7 +46,7 @@
                                                             <li><a
                                                                     href="{{ route('post.show', $post->slug) }}">{{ $post->created_at->format('d-m-Y') }}</a>
                                                             </li>
-                                                            <span>{{ $post->comment->count() }} Comments</span>
+                                                            <span>{{ $post->comment_count }} Comments</span>
                                                         </ul>
                                                         <p>{{ Illuminate\Support\Str::limit($post->description, 500) }}</p>
                                                     </div>

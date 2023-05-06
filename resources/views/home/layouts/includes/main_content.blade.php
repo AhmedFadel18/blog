@@ -8,25 +8,31 @@
                                 style="color: #20232e; font-size: 18px; font-weight: 900;"
                                 class="btn btn-secondary btn-lg btn-block">Add New Post</a>
                         </div>
-                        @foreach ($post as $post)
+                        @foreach ($posts as $post)
                             <div class="col-lg-12">
                                 <div class="blog-post">
                                     <div class="blog-thumb">
-                                        <img style="height: 480px" src="{{ asset('assets/images/posts/'.$post->image) }}" alt="">
+                                        <img style="height: 480px"
+                                            src="{{ asset('assets/images/posts/' . $post->image) }}">
                                     </div>
 
                                     <div class="down-content">
 
-                                        <span>{{ $post->tag->name }}</span>
+                                        @foreach ($post->tags as $tags)
+                                            <span>[{{ $tags->name }}]</span>
+                                        @endforeach
+
                                         <a href="{{ route('post.show', $post->slug) }}">
                                             <h4>{{ $post->title }}</h4>
                                         </a>
                                         <ul class="post-info">
                                             <li><a href="#">{{ $post->user->name }}</a></li>
-                                            <li><a href="{{ route('post.show', $post->slug) }}">{{ $post->created_at->format('d-m-Y') }}</a></li>
-                                            <span>12 Comments</span>
+                                            <li><a
+                                                    href="{{ route('post.show', $post->slug) }}">{{ $post->created_at->format('d-m-Y') }}</a>
+                                            </li>
+                                            <span>{{ $post->comment_count }} comments</span>
                                         </ul>
-                                        <p>{{ Illuminate\Support\Str::limit($post->description, 500)  }}</p>
+                                        <p>{{ Illuminate\Support\Str::limit($post->description, 500) }}</p>
                                     </div>
                                 </div>
                             </div>

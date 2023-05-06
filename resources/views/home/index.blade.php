@@ -32,7 +32,8 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
             {{ session()->get('message') }}
         </div>
-    @endif <!-- Banner Starts Here -->
+    @endif
+     <!-- Banner Starts Here -->
     @include('home.layouts.includes.head_content')
     <!-- Banner Ends Here -->
     <section class="blog-posts">

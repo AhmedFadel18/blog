@@ -25,7 +25,9 @@
                             <div class="col-lg-12">
                                 <div class="blog-post">
                                     <div class="down-content">
-                                        <span>{{ $post->tag->name }}</span>
+                                        @foreach ($post->tags as $tags)
+                                            <span>[{{ $tags->name }}]</span>
+                                        @endforeach
                                         <h4>{{ $post->title }}</h4></a>
                                         <ul class="post-info">
                                             <li><a href="#">{{ $post->user->name }}</a></li>
@@ -64,80 +66,79 @@
                                                     <h4>{{ $comment->user->name }}<span>{{ $comment->created_at }}</span>
                                                     </h4>
                                                     <p>{{ $comment->comment_body }}</p>
-                                                    @if (Auth::user()&&Auth::user()->id)
-                                                    <a href="{{ route('comment.delete',$comment->id) }} " class="btn btn-danger btn-sm">Delete Comment</a>
+                                                    @if (Auth::user() && Auth::user()->id)
+                                                        <a href="{{ route('comment.delete', $comment->id) }} "
+                                                            class="btn btn-danger btn-sm">Delete Comment</a>
                                                     @endif
                                                 </div>
 
-                                            @foreach ($comment->reply as $reply)
-                                                <li class="replied">
-                                                    <div class="right-content">
-                                                        <h4>{{ $reply->user->name }}<span>{{ $reply->created_at }}</span>
-                                                        </h4>
-                                                        <p>{{ $reply->reply_body }}</p>
-                                                        @if (Auth::user()&&Auth::user()->id)
-                                                        <a href="{{ route('reply.delete',$reply->id) }} " class="btn btn-danger btn-sm">Delete Reply</a>
-                                                        @endif
-                                                        @endforeach
-                                                        <div class="sidebar-item submit-comment">
-                                                            <form action="{{ route('reply.store') }}" method="POST">
-                                                                @csrf
-                                                                <input type="hidden" name="commentId"
-                                                                    value="{{ $comment->id }}">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <fieldset>
-                                                                            <textarea name="reply_body" id="reply_body" placeholder="Type your reply" required=""></textarea>
-                                                                        </fieldset>
-                                                                    </div>
-                                                                    <div class="col-lg-12">
-                                                                        <fieldset>
-                                                                            <button type="submit" id="form-submit"
-                                                                                class="main-button">Submit</button>
-                                                                        </fieldset>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </li>
-                                        </ul>
+                                                @foreach ($comment->reply as $reply)
+                                            <li class="replied">
+                                                <div class="right-content">
+                                                    <h4>{{ $reply->user->name }}<span>{{ $reply->created_at }}</span>
+                                                    </h4>
+                                                    <p>{{ $reply->reply_body }}</p>
+                                                    @if (Auth::user() && Auth::user()->id)
+                                                        <a href="{{ route('reply.delete', $reply->id) }} "
+                                                            class="btn btn-danger btn-sm">Delete Reply</a>
+                                                    @endif
+                        @endforeach
+                        <div class="sidebar-item submit-comment">
+                            <form action="{{ route('reply.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="commentId" value="{{ $comment->id }}">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <fieldset>
+                                            <textarea name="reply_body" id="reply_body" placeholder="Type your reply" required=""></textarea>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <fieldset>
+                                            <button type="submit" id="form-submit" class="main-button">Submit</button>
+                                        </fieldset>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-
-                        <div class="col-lg-12">
-                            <div class="sidebar-item submit-comment">
-                                <div class="sidebar-heading">
-                                    <h2>Your comment</h2>
-                                </div>
-                                <div class="content">
-                                    <form id="comment" action="{{ route('comment.store') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="postId" value="{{ $post->id }}">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <fieldset>
-                                                    <textarea name="comment_body" id="comment_body" placeholder="Type your comment" required=""></textarea>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <fieldset>
-                                                    <button type="submit" id="form-submit"
-                                                        class="main-button">Submit</button>
-                                                </fieldset>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            </form>
                         </div>
-                        {{-- End Comments  --}}
                     </div>
+                    </li>
+                    </li>
+                    </ul>
                 </div>
             </div>
+        </div>
+        @endforeach
+
+        <div class="col-lg-12">
+            <div class="sidebar-item submit-comment">
+                <div class="sidebar-heading">
+                    <h2>Your comment</h2>
+                </div>
+                <div class="content">
+                    <form id="comment" action="{{ route('comment.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="postId" value="{{ $post->id }}">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <textarea name="comment_body" id="comment_body" placeholder="Type your comment" required=""></textarea>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <button type="submit" id="form-submit" class="main-button">Submit</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{-- End Comments  --}}
+        </div>
+        </div>
+        </div>
         </div>
     </section>
 @endsection

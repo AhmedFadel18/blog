@@ -31,12 +31,12 @@
         <div class="col-lg-12">
             <div class="sidebar-item tags">
                 <div class="sidebar-heading">
-                    <h2>Categories</h2>
+                    <h2>Tags</h2>
                 </div>
                 <div class="content">
                     <ul>
                         @foreach ($tag as $tag)
-                            <li><a href="{{ route('category', $tag->id) }}">{{ $tag->name }}</a></li>
+                            <li><a href="{{ route('tag', $tag->id) }}">{{ $tag->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>

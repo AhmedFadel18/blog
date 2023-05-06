@@ -8,21 +8,26 @@ use App\Models\Reply;
 use App\Models\Comment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class PostsController extends Controller
 {
     public function allPosts()
     {
-        $post = Post::withCount(['comment'])->orderBy('comment_count','DESC')->get();
+
+        $post = Post::withCount(['comment'])->orderBy('comment_count', 'DESC')->get();
         return view('home.posts', compact('post'));
     }
 
 
     public function create()
     {
-        $tag_id = Tag::all();
-        return view('home.create_post', compact('tag_id'));
+        if (Auth::user()) {
+            $tags = Tag::all();
+            return view('home.create_post', compact('tags'));
+        }
+        return view('home.auth.login');
     }
 
     public function store(Request $request)
@@ -39,7 +44,6 @@ class PostsController extends Controller
         ]);
 
         $post = new Post();
-
         $image = $request->image;
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move('assets/images/posts/', $imageName);
@@ -50,10 +54,12 @@ class PostsController extends Controller
 
         $post->title = $request->title;
         $post->description = $request->description;
-        $post->tag_id = $request->tag;
+
         $post->user_id = auth()->user()->id;
 
         $post->save();
+        $post->tags()->attach($request->tags);
+        $post->update();
 
         return redirect('/')->with('message', 'Your post added successfully');
     }
@@ -61,17 +67,17 @@ class PostsController extends Controller
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        $comment=Comment::where('post_id',$post->id)->get();
-        $commentsCount=$comment->count();
+        $comment = Comment::where('post_id', $post->id)->get();
+        $commentsCount = $comment->count();
 
-        return view('home.details', compact('post','comment','commentsCount',));
+        return view('home.details', compact('post', 'comment', 'commentsCount',));
     }
 
     public function edit($id)
     {
-        $tag_id = Tag::all();
+        $tags = Tag::all();
         $post = Post::find($id);
-        return view('home.edit', compact('tag_id', 'post'));
+        return view('home.edit', compact('tags', 'post'));
     }
 
     public function update(Request $request, $id)
@@ -119,18 +125,18 @@ class PostsController extends Controller
         $post = Post::find($id);
 
         $path = 'assets/images/posts/' . $post->image;
-            File::delete($path);
+        File::delete($path);
 
         $post->delete();
 
         return redirect('/')->with('message', 'Your post deleted successfully');
     }
 
-    public function search(Request $request){
-        $searchText=$request->search;
-        $post=Post::where('title','LIKE',"$searchText%")->paginate(10);
+    public function search(Request $request)
+    {
+        $searchText = $request->search;
+        $post = Post::where('title', 'LIKE', "$searchText%")->paginate(10);
 
-        return view('home.search',compact('post'));
-
+        return view('home.search', compact('post'));
     }
 }
