@@ -10,8 +10,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts=Post::withCount(['comment'])->orderBy('comment_count', 'DESC')->get();
-        $latest=Post::orderBy('id','DESC')->take(3)->get();
+        $posts=Post::where('status',1)->withCount(['comment'])->orderBy('comment_count', 'DESC')->get();
+        $latest=Post::where('status',1)->orderBy('id','DESC')->take(3)->get();
         $tag=Tag::all();
         return view('home.index',compact('posts','latest','tag',));
     }
@@ -26,8 +26,7 @@ class HomeController extends Controller
     }
 
     public function contact(){
-        $user=User::all();
-        return view('home.contact_us',compact('user'));
+        return view('home.contact_us');
     }
 
 }

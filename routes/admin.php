@@ -27,6 +27,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:admin'],function(){
 
 Route::get('dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
 
+//tags routes
 Route::get('tags',[TagsController::class,'index'])->name('admin.tags');
 Route::get('tags/create-tag',[TagsController::class,'create'])->name('admin.tags.create');
 Route::post('tags/store-tag',[TagsController::class,'store'])->name('admin.tags.store');
@@ -35,18 +36,21 @@ Route::post('tags/update/{id}',[TagsController::class,'update'])->name('admin.ta
 Route::get('tags/delete/{id}',[TagsController::class,'delete'])->name('admin.tags.delete');
 Route::get('tags/tag-posts/{id}',[TagsController::class,'showTagPosts'])->name('admin.posts.show_tag_posts');
 
+//posts routes
 Route::get('posts',[PostsController::class,'index'])->name('admin.posts');
 Route::get('posts/publish/{id}',[PostsController::class,'publish'])->name('admin.posts.publish');
 Route::get('posts/{id}',[PostsController::class,'delete'])->name('admin.posts.delete');
 Route::get('posts/show-post/{id}',[PostsController::class,'showPost'])->name('admin.post.show');
 
+//users routes
 Route::get('users',[UsersController::class,'index'])->name('admin.users');
 Route::get('users/user-posts/{id}',[UsersController::class,'showUserPosts'])->name('admin.posts.show_user_posts');
 Route::get('users/make-admin/{id}',[UsersController::class,'makeAdmin'])->name('admin.make_admin');
 Route::get('users/delete-admin/{id}',[UsersController::class,'deleteAdmin'])->name('admin.delete_admin');
 Route::get('users/block-user/{id}',[UsersController::class,'blockUser'])->name('admin.user.block');
 
-Route::get('settings',[SettingsController::class,'index'])->name('admin.settings');
-Route::get('settings/edit/{id}',[SettingsController::class,'generalEdit'])->name('admin.settings.edit');
-Route::get('settings/update/{id}',[SettingsController::class,'generalUpdate'])->name('admin.settings.update');
+//settings routes
+Route::get('settings/',[SettingsController::class,'index'])->name('admin.settings');
+Route::get('settings/edit/',[SettingsController::class,'generalEdit'])->name('admin.settings.edit');
+Route::post('settings/update/',[SettingsController::class,'generalUpdate'])->name('admin.settings.update');
 });
