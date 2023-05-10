@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\Comment;
+use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,9 +76,10 @@ class PostsController extends Controller
 
     public function edit($id)
     {
-        $tags = Tag::all();
+        $allTags = Tag::all();
         $post = Post::find($id);
-        return view('home.edit', compact('tags', 'post'));
+
+        return view('home.edit', compact('allTags', 'post'));
     }
 
     public function update(Request $request, $id)
@@ -112,10 +114,11 @@ class PostsController extends Controller
 
         $post->title = $request->title;
         $post->description = $request->description;
-        $post->tag_id = $request->tag;
+
+        $post->tags() -> sync($request->tags);
         $post->user_id = auth()->user()->id;
 
-        $post->update();
+        $post->save();
 
         return redirect('/')->with('message', 'Your post updated successfully');
     }

@@ -52,9 +52,9 @@
 
         <div class="pt-2 pb-2 form-group">
             Choose tags for your post:
-            @foreach ($tags as $tag)
+            @foreach ($allTags as $tag)
             <label for="{{ $tag->name }}">[ {{ $tag->name }} </label>
-            <input type="checkbox" class="form-group" id="{{ $tag->name }}" name="tag" value="{{ $post->tag_id }}"> ] ,
+            <input type="checkbox" class="form-group" id="{{ $tag->name }}" name="tags[]" value="{{ $tag->id }}" multiple> ] ,
             @endforeach
         </div>
 

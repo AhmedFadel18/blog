@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts=Post::where('status',1)->withCount(['comment'])->orderBy('comment_count', 'DESC')->get();
+        $posts=Post::where('status',1)->withCount(['comment'])->orderBy('comment_count','DESC')->get();
         $latest=Post::where('status',1)->orderBy('id','DESC')->take(3)->get();
         $tag=Tag::all();
         return view('home.index',compact('posts','latest','tag',));

@@ -68,7 +68,6 @@ class AuthController extends Controller
 
     public function signout()
     {
-        Session::flush();
         Auth::logout();
 
         return redirect('/');

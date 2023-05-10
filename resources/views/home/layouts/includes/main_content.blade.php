@@ -8,6 +8,7 @@
                                 style="color: #20232e; font-size: 18px; font-weight: 900;"
                                 class="btn btn-secondary btn-lg btn-block">Add New Post</a>
                         </div>
+                        @if (isset($posts) && $posts->count() > 0)
                         @foreach ($posts as $post)
                             <div class="col-lg-12">
                                 <div class="blog-post">
@@ -17,7 +18,6 @@
                                     </div>
 
                                     <div class="down-content">
-
                                         @foreach ($post->tags as $tags)
                                             <span>[{{ $tags->name }}]</span>
                                         @endforeach
@@ -37,6 +37,9 @@
                                 </div>
                             </div>
                         @endforeach
+                        @else
+                        <p>Post Not Found</p>
+                        @endif
                         <div class="col-lg-12">
                             <div class="main-button">
                                 <a href="blog.html">View All Posts</a>
