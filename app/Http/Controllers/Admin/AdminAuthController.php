@@ -71,11 +71,12 @@ class AdminAuthController extends Controller
 
         public function logout()
         {
-            // Session::flush();
             Auth::guard('admin')->logout();
 
             return redirect()->route('home');
         }
+
+
         public function showForgetPasswordForm()
         {
             return view('admin.auth.forget_password');
