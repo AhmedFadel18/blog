@@ -63,7 +63,7 @@
                         <td>{{ $admin->email }}</td>
                         <td>{{ $admin->added_by }}</td>
                         <td>
-                            <a href="{{ route('admin.make_admin', $admin->id) }}" class="btn btn-warning btn-sm">Remove
+                            <a href="{{ route('admin.delete_admin', $admin->id) }}" class="btn btn-warning btn-sm">Remove
                                 Admin</a>
                             <a href="{{ route('admin.user.block', $admin->id) }}" class="btn btn-danger btn-sm">Block</a>
                         </td>
