@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use App\Models\Post;
-use App\Models\Reply;
 use App\Models\Comment;
-use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +43,7 @@ class PostsController extends Controller
         ]);
 
         $post = new Post();
+
         $image = $request->image;
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->move('assets/images/posts/', $imageName);
