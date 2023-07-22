@@ -10,7 +10,9 @@
                                     <img style="height: 480px" src="{{ asset('assets/images/posts/'.$post->image) }}" alt="">
                                 </div>
                                 <div class="down-content">
-                                    <span>{{ $post->tag->name }}</span>
+                                    @foreach ($post->tags as $tags)
+                                    <span>[{{ $tags->name }}]</span>
+                                    @endforeach
                                     <a href="{{ route('post.show', $post->slug) }}">
                                         <h4>{{ $post->title }}</h4>
                                     </a>

@@ -125,9 +125,10 @@ class PostsController extends Controller
     public function delete($id)
     {
         $post = Post::find($id);
-
-        $path = 'assets/images/posts/' . $post->image;
-        File::delete($path);
+        if($post->image){
+            $path = 'assets/images/posts/' . $post->image;
+            File::delete($path);
+        }
 
         $post->delete();
 
